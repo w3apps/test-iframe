@@ -3,18 +3,31 @@
 <body>
 <button id="btn">TEST</button>
     <iframe id="iframeId" src="http://localhost:8080/included-iframe.html"></iframe>
+<br />
 </body>
 
 <script>
+
     btn.addEventListener('click', function () {
         var iframe = document.getElementById('iframeId');
         var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
 
-        var link = innerDoc.getElementById('test-link');
-        console.log(link);
-        link.click();
-    });
+        var toClone = innerDoc.getElementById('to-clone');
+        var newClone = toClone.cloneNode(true);
 
+        newClone.addEventListener('click', function (event) {
+
+            console.log('clicked');
+            toClone.click();
+
+            event.preventDefault();
+            event.stopPropagation();
+
+        });
+
+        document.body.appendChild(newClone);
+
+    });
 </script>
 
 </html>
